@@ -6,14 +6,25 @@ Moje rozwiązania zadań z portalu [Project Euler](https://projecteuler.net/arch
 
 Projekt korzysta z mechanizmu **Cargo Workspace**, co pozwala na wygodne zarządzanie wieloma niezależnymi programami w jednym repozytorium:
 
-* **`solutions/`** – folder zawierający poszczególne zadania. Każde zadanie to osobny podfolder o nazwie np. `001`.
-* **`euler_utils/`** – wspólna biblioteka pomocnicza. Tutaj trafiają funkcje wielokrotnego użytku (np. testowanie liczb pierwszych, generowanie ciągu Fibonacciego itp.).
+```text
+euler/
+├── Cargo.toml              # Główny plik konfiguracyjny przestrzeni roboczej (Workspace)
+├── euler_utils/            # Wspólna biblioteka z narzędziami i funkcjami
+│   ├── Cargo.toml
+│   └── src/lib.rs
+└── solutions/              # Katalog z rozwiązaniami
+    ├── 001/                # Zadanie nr 1 (pakiet: euler_001)
+    │   ├── Cargo.toml
+    │   └── src/main.rs
+    └── ...
+
+```
 
 ---
 
 ## 🚀 Jak uruchamiać i testować zadania
 
-Wszystkie komendy należy uruchamiać z **głównego katalogu** repozytorium (tam gdzie znajduje się główny plik `Cargo.toml`).
+Wszystkie komendy należy uruchamiać z **głównego katalogu** repozytorium (tam, gdzie znajduje się główny plik `Cargo.toml`).
 
 ### 1. Uruchomienie rozwiązania
 
@@ -21,12 +32,14 @@ Aby uruchomić konkretne zadanie (np. `001` o nazwie pakietu `euler_001`):
 
 ```bash
 cargo run -p euler_001
+
 ```
 
-Dla zadań wymagających optymalizacji (gdy kod wykonuje się zbyt długo), dodaj flagę `--release`:
+Dla zadań wymagających większej mocy obliczeniowej, dodaj flagę `--release` (kod wykona się znacznie szybciej):
 
 ```bash
 cargo run -p euler_001 --release
+
 ```
 
 ### 2. Uruchomienie testów
@@ -35,32 +48,37 @@ Każde zadanie posiada wbudowane testy jednostkowe (sprawdzające np. przykłado
 
 * **Testowanie jednego konkretnego zadania:**
 
-    ```bash
-    cargo test -p euler_001
-    ```
+```bash
+cargo test -p euler_001
+
+```
 
 * **Uruchomienie wszystkich testów w repozytorium (wszystkie zadania + biblioteka `euler_utils`):**
 
-    ```bash
-    cargo test
-    ```
+```bash
+cargo test
+
+```
 
 ---
 
-## 📝 Jak dodać nowe rozwiązanie (Ściągawka)
+## 📝 Jak dodać nowe zadanie
 
-Ponieważ Cargo nie pozwala, aby wewnętrzne nazwy pakietów zaczynały się od cyfr, foldery nazywamy numerami (np. `002`), ale w pliku `Cargo.toml` definiujemy nazwę jako `euler_002`.
+Ponieważ Cargo nie pozwala, aby nazwy pakietów zaczynały się od cyfr, foldery nazywamy numerami (np. `002`), ale w pliku `Cargo.toml` definiujemy nazwę jako `euler_002`.
 
-Aby szybko dodać kolejne zadanie (np. numer **002**), skopiuj i uruchom poniższy blok komend w swoim terminalu:
+Aby wygenerować idealną strukturę dla nowego zadania, skopiuj poniższy kod, **zmień numer w pierwszej linijce** i wklej całość do terminala w głównym katalogu projektu:
 
 ```bash
-# 1. Stwórz strukturę katalogów dla nowego zadania
-mkdir -p solutions/002/src
+# 1. Zdefiniuj numer zadania (zmień tę wartość na odpowiednią, np. 002, 003, 015)
+export NUM="002"
 
-# 2. Utwórz plik konfiguracyjny Cargo.toml z dopuszczalną nazwą pakietu "euler_002"
-cat <<EOF > solutions/002/Cargo.toml
+# 2. Stwórz strukturę katalogów dla nowego zadania
+mkdir -p "solutions/$NUM/src"
+
+# 3. Utwórz plik konfiguracyjny Cargo.toml
+cat <<EOF > "solutions/$NUM/Cargo.toml"
 [package]
-name = "euler_002"
+name = "euler_$NUM"
 version = "0.1.0"
 edition = "2021"
 
@@ -68,10 +86,10 @@ edition = "2021"
 euler_utils = { path = "../../euler_utils" }
 EOF
 
-# 3. Utwórz startowy plik src/main.rs z szablonem kodu i testu
-cat <<'INNER_EOF' > solutions/002/src/main.rs
+# 4. Utwórz startowy plik src/main.rs z gotowym szablonem
+cat <<INNER_EOF > "solutions/$NUM/src/main.rs"
 // Użycie wspólnej biblioteki (odkomentuj jeśli potrzebne):
-// use euler_utils::twoja_funkcja;
+// use euler_utils::*;
 
 fn solve() -> u64 {
     // Miejsce na Twoje rozwiązanie
@@ -80,7 +98,7 @@ fn solve() -> u64 {
 
 fn main() {
     let answer = solve();
-    println!("Rozwiązanie dla zadania 002: {}", answer);
+    println!("Rozwiązanie dla zadania $NUM: {}", answer);
 }
 
 #[cfg(test)]
@@ -94,34 +112,35 @@ mod tests {
     }
 }
 INNER_EOF
+
+echo "✅ Pomyślnie utworzono szablon dla zadania $NUM!"
+
 ```
 
-Po wykonaniu tych komend możesz od razu otworzyć plik `solutions/002/src/main.rs`, pisać kod i uruchomić go za pomocą:
-
-```bash
-cargo run -p euler_002
-```
+Po wykonaniu tych komend możesz od razu otworzyć plik `solutions/$NUM/src/main.rs`, pisać kod i uruchomić go poleceniem:
+`cargo run -p euler_<twój_numer>`
 
 ---
 
 ## 🧰 Jak korzystać ze wspólnej biblioteki `euler_utils`
 
-Jeśli napiszesz funkcję, która może przydać się w wielu zadaniach (np. test na liczbę pierwszą):
+Jeśli napiszesz funkcję, która może przydać się w wielu zadaniach (np. testowanie liczb pierwszych, NWD, sito Eratostenesa):
 
-1. Zdefiniuj ją w pliku `euler_utils/src/lib.rs` jako publiczną (`pub`):
+1. Zdefiniuj ją w pliku `euler_utils/src/lib.rs` i oznacz jako publiczną (`pub`):
 
-    ```rust
-    pub fn is_prime(n: u64) -> bool {
-        if n <= 1 { return false; }
-        for i in 2..=((n as f64).sqrt() as u64) {
-            if n % i == 0 { return false; }
-        }
-        true
+```rust
+pub fn is_prime(n: u64) -> bool {
+    if n <= 1 { return false; }
+    for i in 2..=((n as f64).sqrt() as u64) {
+        if n % i == 0 { return false; }
     }
-    ```
+    true
+}
 
-2. Użyj jej w dowolnym zadaniu (np. w `001`), importując na początku pliku `main.rs`:
+```
 
-    ```rust
-    use euler_utils::is_prime;
-    ```
+1. Użyj jej w dowolnym zadaniu, importując ją na początku pliku `main.rs`:
+
+```rust
+use euler_utils::is_prime;
+```

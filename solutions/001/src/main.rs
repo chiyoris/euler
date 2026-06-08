@@ -1,10 +1,20 @@
 fn solve(limit: u32) -> u32 {
-    (1..limit).filter(|x| x % 3 == 0 || x % 5 == 0).sum()
+    let mut sum = 0;
+    for x in 1..limit {
+        if x % 3 == 0 || x % 5 == 0 {
+            sum += x;
+        }
+    }
+    sum
 }
+
+// fn solve(limit: u32) -> u32 {
+//     (1..limit).filter(|x| x % 3 == 0 || x % 5 == 0).sum()
+// }
 
 fn main() {
     let answer = solve(1000);
-    println!("Rozwiązanie dla zadania 001: {}", answer);
+    println!("rozwiązanie dla zadania 001: {}", answer);
 }
 
 #[cfg(test)]
