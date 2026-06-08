@@ -15,6 +15,8 @@ euler_utils = { path = "../../euler_utils" }
 CARGO_EOF
 
 cat <<-RS_EOF > "solutions/$NUM/src/main.rs"
+// https://projecteuler.net/problem=${NUM}
+
 // cargo run -p euler_${NUM} --release  
 
 // use euler_utils::*;
