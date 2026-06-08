@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "euler_utils",
+    "solutions/*",
+]
+resolver = "2"
