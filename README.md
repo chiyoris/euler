@@ -66,55 +66,10 @@ cargo test
 
 Ponieważ Cargo nie pozwala, aby nazwy pakietów zaczynały się od cyfr, foldery nazywamy numerami (np. `002`), ale w pliku `Cargo.toml` definiujemy nazwę jako `euler_002`.
 
-Aby wygenerować idealną strukturę dla nowego zadania, skopiuj poniższy kod, **zmień numer w pierwszej linijce** i wklej całość do terminala w głównym katalogu projektu:
+Aby wygenerować strukturę dla nowego zadania, skopiuj poniższy kod, **zmień numer w linijce** i wklej całość do terminala w głównym katalogu projektu:
 
-```bash
-# 1. Zdefiniuj numer zadania (zmień tę wartość na odpowiednią, np. 002, 003, 015)
-export NUM="002"
-
-# 2. Stwórz strukturę katalogów dla nowego zadania
-mkdir -p "solutions/$NUM/src"
-
-# 3. Utwórz plik konfiguracyjny Cargo.toml
-cat <<EOF > "solutions/$NUM/Cargo.toml"
-[package]
-name = "euler_$NUM"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-euler_utils = { path = "../../euler_utils" }
-EOF
-
-# 4. Utwórz startowy plik src/main.rs z gotowym szablonem
-cat <<INNER_EOF > "solutions/$NUM/src/main.rs"
-// Użycie wspólnej biblioteki (odkomentuj jeśli potrzebne):
-// use euler_utils::*;
-
-fn solve() -> u64 {
-    // Miejsce na Twoje rozwiązanie
-    0
-}
-
-fn main() {
-    let answer = solve();
-    println!("Rozwiązanie dla zadania $NUM: {}", answer);
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_example() {
-        // Tutaj wpisz przykładowy test z treści zadania
-        assert_eq!(solve(), 0);
-    }
-}
-INNER_EOF
-
-echo "✅ Pomyślnie utworzono szablon dla zadania $NUM!"
-
+```text
+./setup.sh <twój_numer>
 ```
 
 Po wykonaniu tych komend możesz od razu otworzyć plik `solutions/$NUM/src/main.rs`, pisać kod i uruchomić go poleceniem:
