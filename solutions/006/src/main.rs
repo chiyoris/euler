@@ -3,16 +3,21 @@
 // cargo run -p euler_006 --release
 
 // use euler_utils::*;
+// fn solve(limit: u32) -> u32 {
+//     let mut sum_of_squres: u32 = 0;
+//     let mut square_of_sums: u32 = 0;
+//     for x in 1..=limit {
+//         sum_of_squres += x.pow(2);
+//         square_of_sums += x;
+//     }
+//     square_of_sums.pow(2) - sum_of_squres
+// }
+
 fn solve(limit: u32) -> u32 {
-    let mut sum_of_squres: u32 = 0;
-    let mut square_of_sums: u32 = 0;
+    let sum = limit * (limit + 1) / 2;
+    let sum_of_squares: u32 = (1..=limit).map(|x| x.pow(2)).sum();
 
-    for x in 1..=limit {
-        sum_of_squres += x.pow(2);
-        square_of_sums += x;
-    }
-
-    square_of_sums.pow(2) - sum_of_squres
+    sum * sum - sum_of_squares
 }
 
 fn main() {
