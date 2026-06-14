@@ -38,8 +38,20 @@ fn solve(l: usize) -> u64 {
     prod
 }
 
+fn solve2(l: usize) -> u64 {
+    NUMBER
+        .as_bytes()
+        .windows(l)
+        .map(|window| window.iter().map(|d| (d - b'0') as u64).product())
+        .max()
+        .unwrap()
+}
+
 fn main() {
     let answer = solve(13);
+    println!("rozwiązanie dla zadania 008: {}", answer);
+
+    let answer = solve2(13);
     println!("rozwiązanie dla zadania 008: {}", answer);
 }
 
