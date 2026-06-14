@@ -67,6 +67,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "euler_010"
+version = "0.1.0"
+dependencies = [
+ "euler_utils",
+ "primes",
+]
+
+[[package]]
 name = "euler_utils"
 version = "0.1.0"
 
