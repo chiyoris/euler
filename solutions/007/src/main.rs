@@ -16,12 +16,11 @@ fn main() {
     println!("rozwiązanie dla zadania 007: {}", answer);
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    // #[test]
-    // fn test_example() {
-    //     assert_eq!(solve(), 0);
-    // }
-}
+// #[cfg(test)]
+// mod tests {
+//     use super::*;
+// #[test]
+// fn test_example() {
+//     assert_eq!(solve(), 0);
+// }
+// }
