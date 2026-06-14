@@ -10,10 +10,10 @@ fn solve(limit: u64) -> u64 {
     let mut sum = 0;
 
     for (ix, n) in pset.iter().enumerate() {
-        sum += n;
         if n >= limit {
             break;
         }
+        sum += n;
     }
     sum
 }
@@ -29,6 +29,6 @@ mod tests {
 
     #[test]
     fn test_example() {
-        assert_eq!(solve(), 0);
+        assert_eq!(solve(10), 17);
     }
 }
