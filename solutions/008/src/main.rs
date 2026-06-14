@@ -49,6 +49,6 @@ mod tests {
 
     #[test]
     fn test_example() {
-        assert_eq!(solve(), 0);
+        assert_eq!(solve(4), 5832);
     }
 }
